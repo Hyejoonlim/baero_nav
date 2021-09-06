@@ -1,0 +1,51 @@
+global_frame: velodyne
+robot_base_frame: velodyne
+footprint: [
+    # tail
+    [-0.25, -0.25],
+    [-0.25, 0.25],
+    # nose
+    [0.25, 0.5],
+    [0.25, 0.00],
+    [0.25, -0.5]
+    ]
+
+transform_tolerance: 5
+rolling_window: true
+
+static_map: false
+width: 10.0
+height: 10.0
+resolution: 0.05
+
+always_send_full_costmap: false
+
+publish_frequency: 1.0
+update_frequency: 1.0
+
+plugins:
+    - {name: inflation,        type: "costmap_2d::InflationLayer"}
+    - {name: obstacles,       type: "costmap_2d::ObstacleLayer"}
+
+inflation:
+  enabled:              true
+  cost_scaling_factor:  5.0  
+  inflation_radius:     0.5 
+
+obstacles:
+  enabled: true
+  track_unkown_space: true
+  observation_sources: velodyne
+  velodyne: {
+    observation_persistance: 0.5,
+    sensor_frame: velodyne,
+    data_type: PointCloud2,
+    topic: velodyne_points,
+    marking: true,
+    clearing: true,
+    obstacle_range: 5,
+    raytrace_range: 5,
+    expected_update_rate: 0.1,
+    min_obstacle_height: 0.0,
+    max_obstacle_height: 5
+  }
