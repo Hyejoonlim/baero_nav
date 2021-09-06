@@ -1,0 +1,38 @@
+// Building a Package
+
+cd ~/catkin_ws/ && catkin_make
+cd
+. ~/catkin_ws/devel/setup.bash
+
+// Setup ros
+
+source /opt/ros/melodic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+
+// Velodyne point cloud
+
+roslaunch velodyne_pointcloud VLP16_points.launch
+
+// Frame configuration
+
+roslaunch baero_nav frame_config.launch 
+
+// Loam slam 
+
+roslaunch loam_velodyne loam_velodyne.launch
+
+// Sending the navigation golds
+
+rosrun nav2d_goals nav2d_goals
+
+// Running the Entire Navigation Package at once
+// Costmap and planners
+
+roslaunch baero_nav move_base.launch 
+
+
+// ** TMI ** //
+// Run Only Local Costmap/Global Costmap
+
+roslaunch baero_nav localCost.launch 
+roslaunch baero_nav GlobalCost.launch
